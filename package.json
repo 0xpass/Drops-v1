@@ -33,7 +33,7 @@
     "eslint-config-next": "^13.0.0",
     "postcss": "^8.4.17",
     "tailwindcss": "^3.1.8",
-    "typescript": "^4.7.2"
+    "typescript": "^5.0.2"
   },
   "description": "Build your NFT minting page with The Box!",
   "main": "next.config.js",
