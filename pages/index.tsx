@@ -64,7 +64,11 @@ const Home: NextPage = (props: any) => {
     </Head>
 
     <main className={`${styles.main} md:mt-0 sm:mt-16 mt-28`}>
+      <br/>
+      <br/>
       <div className='w-full flex flex-wrap'>
+
+
         <div className='md:border-r border-black w-full md:w-2/5 relative md:h-[80vh] overflow-y-auto'>
           <h1 className='px-8 2xl:text-6xl md:text-7xl text-6xl flex-items-center text-purple-500 pb-4 pt-8 md:mb-0 mb-4'>{"A 4337 Future"}</h1>
           <div className='p-8'>
