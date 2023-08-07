@@ -58,13 +58,29 @@ export const getNftDetails = async (chainId: number, address: string) => {
   let nftDetails: NftDetails;
   try {
     const url = `https://polygon-mainnet.g.alchemy.com/nft/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata?contractAddress=${address}&tokenId=0`;
+
+    const nftSupply =  {
+      "jsonrpc": "2.0",
+      "method": "eth_call",
+      "params": [
+        {
+          "to": address,
+          "data": "0x18160ddd" // This is the method id for the 'totalSupply' function
+        },
+        "latest"
+      ],
+      "id": 1
+    };
+
     const { data: contractData } = await axios.get(url, {
       headers: {
         accept: 'application/json',
       }
     });
 
-    console.log(contractData)
+
+    const totalSupply = await axios.post(`https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`, nftSupply)
+
     nftDetails = {
       contract:{
         address: contractData.contract.address,
@@ -79,7 +95,7 @@ export const getNftDetails = async (chainId: number, address: string) => {
         mimeType: contractData.media[0].format 
       },
       data: {
-        totalSupply: contractData.contractMetadata.totalSupply || null,
+        totalSupply: parseInt(totalSupply.data.result,16) ||  1,
         dateCreated: contractData.timeLastUpdated
       }
     };
