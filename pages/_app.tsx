@@ -1,5 +1,4 @@
 import "@decent.xyz/the-box/dist/the-box-base.css";
-import '@rainbow-me/rainbowkit/styles.css'; 
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import Navbar from '../components/Navbar/Navbar';
@@ -8,14 +7,23 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Analytics } from "@vercel/analytics/react";
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-import {polygon, polygonMumbai} from "wagmi/chains"
-import {walletConnectWallet, metaMaskWallet, socialMagicWallet} from "0xpass/wallets"
+import {polygon} from "wagmi/chains"
+import {walletConnectWallet, metaMaskWallet, socialMagicWallet, emailMagicWallet} from "0xpass/wallets"
 import { PassProvider, createClient, connectorsForWallets } from "0xpass"
 import { WagmiConfig, configureChains, createConfig } from "wagmi"
+import {smartWalletWithBiconomy} from "../lib/biconomy/wallet";
 
 
-const apiKey = "my-api-key";
+const apiKey = "pk_live_CB6C83195F3FFCC3";
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string;
+
+const bundlerUrl = process.env.NEXT_PUBLIC_BUNDLER_URL as string;
+const paymasterUrl = process.env.NEXT_PUBLIC_PAYMASTER_URL as string;
+
+const biconomyConfig = {
+  bundlerUrl,
+  paymasterUrl
+}
 
 const {chains, publicClient } = configureChains(
   [
@@ -36,14 +44,20 @@ const connectors = connectorsForWallets([
   {
     groupName: "Social",
     wallets: [
-      socialMagicWallet({ apiKey: "magic api key", chains, provider: "google" })
+      emailMagicWallet({ apiKey: apiKey, chains, shimDisconnect: true }),
     ]
   },
   {
     groupName: "Others",
     wallets: [
-      metaMaskWallet({projectId, chains}),
-      walletConnectWallet({projectId, chains}),
+      smartWalletWithBiconomy(
+        metaMaskWallet({projectId, chains}),
+        biconomyConfig
+      ),
+      smartWalletWithBiconomy(
+          walletConnectWallet({projectId, chains}),
+          biconomyConfig
+      ),
     ],
   }
 ])

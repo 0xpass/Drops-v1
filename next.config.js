@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
   images: {
     remotePatterns: [
       {
@@ -13,6 +12,15 @@ const nextConfig = {
       "ipfs.filebase.io",
       "oaidalleapiprodscus.blob.core.windows.net"
     ],
+  },
+  webpack: (config) => {
+    config.resolve.fallback = {
+      fs: false,
+      net: false,
+      tls: false,
+      encoding: false,
+    };
+    return config;
   },
 };
 
