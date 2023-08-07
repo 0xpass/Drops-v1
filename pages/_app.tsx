@@ -42,9 +42,21 @@ const passClient = createClient({ apiKey, chains });
 
 const connectors = connectorsForWallets([
   {
+    groupName: "Email",
+    wallets: [
+      smartWalletWithBiconomy(
+          emailMagicWallet({ apiKey: apiKey, chains, shimDisconnect: true }),
+          biconomyConfig
+      )
+    ]
+  },
+  {
     groupName: "Social",
     wallets: [
-      emailMagicWallet({ apiKey: apiKey, chains, shimDisconnect: true }),
+      smartWalletWithBiconomy(
+          socialMagicWallet({ apiKey: apiKey, chains, provider: "google" }),
+          biconomyConfig
+      )
     ]
   },
   {
