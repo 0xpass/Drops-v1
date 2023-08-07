@@ -13,8 +13,10 @@ const Box = (props:any):JSX.Element => {
   const { address: account } = useAccount();
   const signer = useEthersSigner();
   const [quantity, setQuantity] = useState(1);
+  const [showButtons, toggleButtons] = useState(false);
 
-  return <div>
+
+    return <div>
     <div className='text-xl font-[400] pb-4'><b>Mint </b></div>
       {account && <div className="pb-6">
           <p><b>ERC4337 Wallet</b>:
@@ -52,19 +54,22 @@ const Box = (props:any):JSX.Element => {
           allowBridging: false,
           allowSwapping: false
       }}
-      onTxReceipt={() => toast.success("Successfully minted!")}
+      onTxReceipt={() => {
+          toggleButtons(true)
+          toast.success("Minting Success. NFT arrives in 30 seconds..")
+      }}
       apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
     />
     {/* ----------------------------------------------------------- */}
-      <div className="pb-6 text-center">
+        {showButtons && <div className="pb-6 text-center">
           <button
-              onClick={() => {window.location.href = `https://polygonscan.com/address/${account}#tokentxnsErc721`}}
+              onClick={() => {window.open(`https://polygonscan.com/address/${account}#tokentxnsErc721`)}}
               className="bg-purple-500 text-white font-bold py-2 px-4 rounded mr-2" >View my NFT </button>
           <button
-              onClick={() => {window.location.href = `https://polygonscan.com/token/0x6e1D870451a02e64C08f65B2829Db67b4CfD24bD#balances`}}
-              className="bg-purple-500 text-white font-bold py-2 px-4 rounded" >View NFT Contract </button>
+              onClick={() => {window.open(`https://polygonscan.com/token/0x6e1D870451a02e64C08f65B2829Db67b4CfD24bD#balances`)}}
+              className="bg-purple-500 text-white font-bold py-2 px-4 rounded" >NFT Contract </button>
 
-      </div>
+      </div>}
 
       <div className="pb-6 text-center">
               </div>

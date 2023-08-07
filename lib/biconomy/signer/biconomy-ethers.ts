@@ -1,7 +1,7 @@
 import {BiconomySmartAccount, BiconomySmartAccountConfig, DEFAULT_ENTRYPOINT_ADDRESS} from "@biconomy/account";
 import {providers} from "ethers";
 import {polygon} from "wagmi/chains";
-import {Bundler, IBundler, UserOpResponse} from "@biconomy/bundler";
+import {Bundler} from "@biconomy/bundler";
 import {BiconomyPaymaster, IHybridPaymaster, PaymasterMode, SponsorUserOperationDto} from "@biconomy/paymaster";
 
 export const biconomyEthers = (signer: providers.JsonRpcSigner): providers.JsonRpcSigner => {
@@ -24,10 +24,10 @@ export const biconomyEthers = (signer: providers.JsonRpcSigner): providers.JsonR
         }
     };
 
-    async function handleSendTransaction(transactionArgs: any): Promise<UserOpResponse> {
+    async function handleSendTransaction(transactionArgs: any): Promise<any> {
         try {
 
-            const biconomyBundler: IBundler = new Bundler({
+            const biconomyBundler: Bundler = new Bundler({
                 bundlerUrl: process.env.NEXT_PUBLIC_BUNDLER_URL as string,
                 chainId: polygon.id,
                 entryPointAddress: DEFAULT_ENTRYPOINT_ADDRESS,
@@ -62,8 +62,7 @@ export const biconomyEthers = (signer: providers.JsonRpcSigner): providers.JsonR
             const paymasterAndDataResponse = await biconomyPaymaster.getPaymasterAndData(userOp, paymasterServiceData);
             userOp.paymasterAndData = paymasterAndDataResponse.paymasterAndData;
 
-            const userOpResponse = await account.sendUserOp(userOp);
-            return userOpResponse;
+            return await account.sendUserOp(userOp)
 
         } catch (error: any) {
             console.error(`Error handling sendTransaction: ${error.message}`);
