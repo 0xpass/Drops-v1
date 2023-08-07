@@ -59,10 +59,10 @@ const Box = (props:any):JSX.Element => {
       <div className="pb-6 text-center">
           <button
               onClick={() => {window.location.href = `https://polygonscan.com/address/${account}#tokentxnsErc721`}}
-              className="bg-purple-400 text-white font-bold py-2 px-4 rounded mr-2" >View my NFT </button>
+              className="bg-purple-500 text-white font-bold py-2 px-4 rounded mr-2" >View my NFT </button>
           <button
-              onClick={() => {window.location.href = `https://polygonscan.com/address/0x6e1D870451a02e64C08f65B2829Db67b4CfD24bD`}}
-              className="bg-purple-400 text-white font-bold py-2 px-4 rounded" >View NFT Contract </button>
+              onClick={() => {window.location.href = `https://polygonscan.com/token/0x6e1D870451a02e64C08f65B2829Db67b4CfD24bD#balances`}}
+              className="bg-purple-500 text-white font-bold py-2 px-4 rounded" >View NFT Contract </button>
 
       </div>
 
