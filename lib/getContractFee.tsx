@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 const DecentFees = [
   {chainId: 1, fee: ethers.utils.parseEther(".00077")},
   {chainId: 10, fee: ethers.utils.parseEther(".00044")},
-  {chainId: 137, fee: ethers.utils.parseEther(".81")},
+  {chainId: 137, fee: ethers.utils.parseEther(".00")},
   {chainId: 42161, fee: ethers.utils.parseEther(".00044")}
 ]
 

@@ -57,12 +57,14 @@ enum Endpoint {
 export const getNftDetails = async (chainId: number, address: string) => {
   let nftDetails: NftDetails;
   try {
-    const url = `https://${Endpoint[chainId]}-mainnet.g.alchemy.com/nft/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata?contractAddress=${address}&tokenId=0`;
+    const url = `https://polygon-mainnet.g.alchemy.com/nft/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata?contractAddress=${address}&tokenId=0`;
     const { data: contractData } = await axios.get(url, {
       headers: {
         accept: 'application/json',
       }
     });
+
+    console.log(contractData)
     nftDetails = {
       contract:{
         address: contractData.contract.address,
@@ -81,6 +83,7 @@ export const getNftDetails = async (chainId: number, address: string) => {
         dateCreated: contractData.timeLastUpdated
       }
     };
+
     return nftDetails;
   } catch (e) {
     console.log("error fetching contract data ", e)

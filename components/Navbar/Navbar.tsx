@@ -26,10 +26,16 @@ const Navbar = () => {
   return (
     <>
       <nav className={`${styles.navbar} w-full flex flex-wrap items-center sm:justify-between justify-center border-b border-black drop-shadow-md`} >
-        <NavItem href="https://decent.xyz" openInNewTab><Image width={150} height={60} src="/images/decent.png" alt="decent" /></NavItem>
+          <NavItem href="https://0xpass.io/z" openInNewTab>
+              <span>
+              <Image className="invert" width={150} height={60} src="/images/logo-symbol.svg" alt="0xpass" />
+              <p className="box-text-center invert"><b>0xpass</b></p>
+              </span>
+          </NavItem>
+
         <div className="flex items-center gap-4">
           <ConnectWallet />
-          <Link href='https://github.com/decentxyz/Minting-Page' target='_blank'>
+          <Link href='https://github.com/0xpass/Drops-v1.git' target='_blank'>
             <div className="p-1 rounded-full bg-black">
               <Image src='/images/github-mark-white.svg' height={20} width={20} alt='link to repository' />
             </div>

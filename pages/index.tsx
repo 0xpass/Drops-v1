@@ -10,8 +10,7 @@ import Box from "../components/Box";
 
 const Home: NextPage = (props: any) => {
   const blurRef = useRef<HTMLDivElement | null>(null);
-  const noEnd = 4294967295;
-  const endDate = new Date(props.nftDetails.saleTimes?.saleEnd * 1000) || noEnd;
+  const endDate = new Date(1691539200 * 1000);
   const [nftsMinted, setNftsMinted] = useState("");
   const [isVideo, setIsVideo] = useState(false);
 
@@ -46,7 +45,7 @@ const Home: NextPage = (props: any) => {
 
   return <>
     <Head>
-      <title>{props.nftDetails.metadata.title}</title>
+      <title>{"A 4337 Future"}</title>
       <meta
         name="description"
         content={props.nftDetails.metadata.description}
@@ -55,7 +54,7 @@ const Home: NextPage = (props: any) => {
       <meta property='og:type' content="website" />
       <meta property='og:url' content={"https://featured.decent.xyz/"} />
       <meta property='og:image' content={props.nftDetails.metadata.image} />
-      <meta property='og:title' content={props.nftDetails.metadata.title} />
+      <meta property='og:title' content={"A 4337 Future"} />
       <meta property='og:description' content={props.nftDetails.metadata.description} />
       <meta name='twitter:card' content={"summary_large_image"} />
       <meta name='twitter:url' content={"https://featured.decent.xyz/"} />
@@ -67,7 +66,7 @@ const Home: NextPage = (props: any) => {
     <main className={`${styles.main} md:mt-0 sm:mt-16 mt-28`}>
       <div className='w-full flex flex-wrap'>
         <div className='md:border-r border-black w-full md:w-2/5 relative md:h-[80vh] overflow-y-auto'>
-          <h1 className='px-8 2xl:text-6xl md:text-7xl text-6xl flex-items-center text-[#A378FF] pb-4 pt-8 md:mb-0 mb-4'>{props.nftDetails.metadata.title}</h1>
+          <h1 className='px-8 2xl:text-6xl md:text-7xl text-6xl flex-items-center text-[#A378FF] pb-4 pt-8 md:mb-0 mb-4'>{"A 4337 Future"}</h1>
           <div className='p-8'>
             {renderedParagraphs}
           </div>
@@ -128,15 +127,17 @@ export async function getStaticProps() {
   {/* -------------------------NFT Settings-------------------------- */}
   // change constants to fetch your NFT & set data that cannot be determined dynamically
   let constants = {
-    decentNft: true,
-    address: '0x80F4bABDcba710E6B0C07c760c3C5B061C31b6C0',
-    chainId: 10,
+    decentNft: false,
+    address: '0x6e1D870451a02e64C08f65B2829Db67b4CfD24bD',
+    chainId: 137,
     mintPrice: "0.0",
-    maxTokens: 4294967295,
-    sellOutDate: 4294967295
+    maxTokens: 3000,
+    sellOutDate: 1691539200
   }
   {/* --------------------------------------------------------------- */}
 
+
+  console.log("I am fetching this data")
   // NOTE: to retrieve metadata for non-Decent NFTs, at least 1 NFT from the collection must already be minted!!
   let nftDetails;
   if (constants.decentNft) {

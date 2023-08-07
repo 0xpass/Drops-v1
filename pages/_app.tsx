@@ -1,68 +1,95 @@
 import "@decent.xyz/the-box/dist/the-box-base.css";
-import '@rainbow-me/rainbowkit/styles.css'; 
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import Navbar from '../components/Navbar/Navbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Analytics } from "@vercel/analytics/react";
-import { configureChains, WagmiConfig, createClient } from 'wagmi';
-import { arbitrum, optimism, mainnet, polygon } from "wagmi/chains";
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-import { RainbowKitProvider, getDefaultWallets, lightTheme } from "@rainbow-me/rainbowkit";
- 
-const configureChainsConfig = configureChains(
+import {polygon} from "wagmi/chains"
+import {walletConnectWallet, metaMaskWallet, socialMagicWallet, emailMagicWallet} from "0xpass/wallets"
+import { PassProvider, createClient, connectorsForWallets } from "0xpass"
+import { WagmiConfig, configureChains, createConfig } from "wagmi"
+import {smartWalletWithBiconomy} from "../lib/biconomy/wallet";
+
+
+const apiKey = "pk_live_CB6C83195F3FFCC3";
+const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string;
+
+const bundlerUrl = process.env.NEXT_PUBLIC_BUNDLER_URL as string;
+const paymasterUrl = process.env.NEXT_PUBLIC_PAYMASTER_URL as string;
+
+const biconomyConfig = {
+  bundlerUrl,
+  paymasterUrl
+}
+
+const {chains, publicClient } = configureChains(
   [
-    optimism,
-    arbitrum,
-    polygon,
-    mainnet,
+    polygon
   ],
   [
     alchemyProvider({
-      apiKey: `${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
-      priority: 0,
+      apiKey: `${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     }),
-    publicProvider({ priority: 1 }),
+    publicProvider(),
   ]
 );
 
-const { chains, provider, webSocketProvider } = configureChainsConfig;
+const passClient = createClient({ apiKey, chains });
 
-const { connectors } = getDefaultWallets({
-  appName: 'Minting Page',
-  projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string,
-  chains,
-});
 
-const wagmiClient = createClient({
+const connectors = connectorsForWallets([
+  {
+    groupName: "Email",
+    wallets: [
+      smartWalletWithBiconomy(
+          emailMagicWallet({ apiKey: apiKey, chains, shimDisconnect: true }),
+          biconomyConfig
+      )
+    ]
+  },
+  {
+    groupName: "Social",
+    wallets: [
+      smartWalletWithBiconomy(
+          socialMagicWallet({ apiKey: apiKey, chains, provider: "google" }),
+          biconomyConfig
+      )
+    ]
+  },
+  {
+    groupName: "Others",
+    wallets: [
+      smartWalletWithBiconomy(
+        metaMaskWallet({projectId, chains}),
+        biconomyConfig
+      ),
+      smartWalletWithBiconomy(
+          walletConnectWallet({projectId, chains}),
+          biconomyConfig
+      ),
+    ],
+  }
+])
+
+const wagmiConfig = createConfig({
   autoConnect: true,
   connectors,
-  provider,
-  webSocketProvider,
-});
+  publicClient
+})
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig client={wagmiClient}>
-    <RainbowKitProvider
-      chains={chains}
-      modalSize="compact"
-      theme={lightTheme({
-        accentColor: '#9969FF',
-        accentColorForeground: 'white',
-        borderRadius: 'small',
-        fontStack: 'system',
-        overlayBlur: 'small',
-      })}
-      >
-      <Navbar />
-      <Component {...pageProps} />
-      <Analytics />
-      <ToastContainer />
-    </RainbowKitProvider>
-  </WagmiConfig>
+      <WagmiConfig config={wagmiConfig}>
+        <PassProvider client={passClient}>
+          <Navbar />
+          <Component {...pageProps} />
+          <Analytics />
+          <ToastContainer />
+        </PassProvider>
+      </WagmiConfig>
   );
 }
 
