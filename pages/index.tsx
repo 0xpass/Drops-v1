@@ -129,14 +129,16 @@ export async function getStaticProps() {
   // change constants to fetch your NFT & set data that cannot be determined dynamically
   let constants = {
     decentNft: true,
-    address: '0x80F4bABDcba710E6B0C07c760c3C5B061C31b6C0',
-    chainId: 10,
+    address: '0x3F9177218B651ef79d27B515A3ae215AB09532C4',
+    chainId: 137,
     mintPrice: "0.0",
-    maxTokens: 4294967295,
-    sellOutDate: 4294967295
+    maxTokens: 3000,
+    sellOutDate: 1691539200
   }
   {/* --------------------------------------------------------------- */}
 
+
+  console.log("I am fetching this data")
   // NOTE: to retrieve metadata for non-Decent NFTs, at least 1 NFT from the collection must already be minted!!
   let nftDetails;
   if (constants.decentNft) {

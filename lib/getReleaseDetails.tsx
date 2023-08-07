@@ -63,6 +63,8 @@ export const getNftDetails = async (chainId: number, address: string) => {
         accept: 'application/json',
       }
     });
+
+    console.log(contractData)
     nftDetails = {
       contract:{
         address: contractData.contract.address,
@@ -81,6 +83,7 @@ export const getNftDetails = async (chainId: number, address: string) => {
         dateCreated: contractData.timeLastUpdated
       }
     };
+
     return nftDetails;
   } catch (e) {
     console.log("error fetching contract data ", e)

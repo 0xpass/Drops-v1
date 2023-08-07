@@ -6,63 +6,64 @@ import Navbar from '../components/Navbar/Navbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Analytics } from "@vercel/analytics/react";
-import { configureChains, WagmiConfig, createClient } from 'wagmi';
-import { arbitrum, optimism, mainnet, polygon } from "wagmi/chains";
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-import { RainbowKitProvider, getDefaultWallets, lightTheme } from "@rainbow-me/rainbowkit";
- 
-const configureChainsConfig = configureChains(
+import {polygon, polygonMumbai} from "wagmi/chains"
+import {walletConnectWallet, metaMaskWallet, socialMagicWallet} from "0xpass/wallets"
+import { PassProvider, createClient, connectorsForWallets } from "0xpass"
+import { WagmiConfig, configureChains, createConfig } from "wagmi"
+
+
+const apiKey = "my-api-key";
+const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string;
+
+const {chains, publicClient } = configureChains(
   [
-    optimism,
-    arbitrum,
-    polygon,
-    mainnet,
+    polygon
   ],
   [
     alchemyProvider({
-      apiKey: `${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
-      priority: 0,
+      apiKey: `${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
     }),
-    publicProvider({ priority: 1 }),
+    publicProvider(),
   ]
 );
 
-const { chains, provider, webSocketProvider } = configureChainsConfig;
+const passClient = createClient({ apiKey, chains });
 
-const { connectors } = getDefaultWallets({
-  appName: 'Minting Page',
-  projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string,
-  chains,
-});
 
-const wagmiClient = createClient({
+const connectors = connectorsForWallets([
+  {
+    groupName: "Social",
+    wallets: [
+      socialMagicWallet({ apiKey: "magic api key", chains, provider: "google" })
+    ]
+  },
+  {
+    groupName: "Others",
+    wallets: [
+      metaMaskWallet({projectId, chains}),
+      walletConnectWallet({projectId, chains}),
+    ],
+  }
+])
+
+const wagmiConfig = createConfig({
   autoConnect: true,
   connectors,
-  provider,
-  webSocketProvider,
-});
+  publicClient
+})
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig client={wagmiClient}>
-    <RainbowKitProvider
-      chains={chains}
-      modalSize="compact"
-      theme={lightTheme({
-        accentColor: '#9969FF',
-        accentColorForeground: 'white',
-        borderRadius: 'small',
-        fontStack: 'system',
-        overlayBlur: 'small',
-      })}
-      >
-      <Navbar />
-      <Component {...pageProps} />
-      <Analytics />
-      <ToastContainer />
-    </RainbowKitProvider>
-  </WagmiConfig>
+      <WagmiConfig config={wagmiConfig}>
+        <PassProvider client={passClient}>
+          <Navbar />
+          <Component {...pageProps} />
+          <Analytics />
+          <ToastContainer />
+        </PassProvider>
+      </WagmiConfig>
   );
 }
 
