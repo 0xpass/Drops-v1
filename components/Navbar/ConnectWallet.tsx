@@ -3,6 +3,7 @@ import "0xpass/styles.css"
 
 export const ConnectWallet = () => {
   return (
+
       <ConnectButton />
   );
 };
