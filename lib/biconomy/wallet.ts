@@ -3,7 +3,7 @@ import {SmartBiconomyConfig, BiconomySmartConnector} from "./connector";
 
 export const smartWalletWithBiconomy = (wallet: any, config: SmartBiconomyConfig): any => ({
   ...wallet,
-  name: `Super ${wallet.name}`,
+  name: `⚡ ${wallet.name} ⚡ `,
   iconBackground: '#615555',
   createConnector: function() {
     const originalConnectorObject = wallet.createConnector.call(this);

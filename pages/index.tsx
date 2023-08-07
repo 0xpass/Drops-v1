@@ -45,7 +45,7 @@ const Home: NextPage = (props: any) => {
 
   return <>
     <Head>
-      <title>{props.nftDetails.metadata.title}</title>
+      <title>{"A 4337 Future"}</title>
       <meta
         name="description"
         content={props.nftDetails.metadata.description}
@@ -54,7 +54,7 @@ const Home: NextPage = (props: any) => {
       <meta property='og:type' content="website" />
       <meta property='og:url' content={"https://featured.decent.xyz/"} />
       <meta property='og:image' content={props.nftDetails.metadata.image} />
-      <meta property='og:title' content={props.nftDetails.metadata.title} />
+      <meta property='og:title' content={"A 4337 Future"} />
       <meta property='og:description' content={props.nftDetails.metadata.description} />
       <meta name='twitter:card' content={"summary_large_image"} />
       <meta name='twitter:url' content={"https://featured.decent.xyz/"} />
@@ -66,7 +66,7 @@ const Home: NextPage = (props: any) => {
     <main className={`${styles.main} md:mt-0 sm:mt-16 mt-28`}>
       <div className='w-full flex flex-wrap'>
         <div className='md:border-r border-black w-full md:w-2/5 relative md:h-[80vh] overflow-y-auto'>
-          <h1 className='px-8 2xl:text-6xl md:text-7xl text-6xl flex-items-center text-[#A378FF] pb-4 pt-8 md:mb-0 mb-4'>{props.nftDetails.metadata.title}</h1>
+          <h1 className='px-8 2xl:text-6xl md:text-7xl text-6xl flex-items-center text-[#A378FF] pb-4 pt-8 md:mb-0 mb-4'>{"A 4337 Future"}</h1>
           <div className='p-8'>
             {renderedParagraphs}
           </div>
@@ -128,7 +128,7 @@ export async function getStaticProps() {
   // change constants to fetch your NFT & set data that cannot be determined dynamically
   let constants = {
     decentNft: false,
-    address: '0xc8B63119D2aF59b2F31281dF32a45D5E77299511',
+    address: '0x6e1D870451a02e64C08f65B2829Db67b4CfD24bD',
     chainId: 137,
     mintPrice: "0.0",
     maxTokens: 3000,

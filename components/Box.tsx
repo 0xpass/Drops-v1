@@ -15,7 +15,7 @@ const Box = (props:any):JSX.Element => {
   const [quantity, setQuantity] = useState(1);
 
   return <div>
-    <div className='text-xl font-[400] pb-4'><b>Mint: </b></div>
+    <div className='text-xl font-[400] pb-4'><b>Mint </b></div>
       {account && <div className="pb-6">
           <p><b>ERC4337 Wallet</b>:
               <br/>
@@ -28,10 +28,6 @@ const Box = (props:any):JSX.Element => {
           </p>
       </div>}
 
-    {/* Can delete maxQuantity if you do not want to limit the number of NFTs a person can mint at once */}
-    <div className="pb-6">
-      <NumberTicker quantity={quantity} setQuantity={setQuantity} maxQuantity={1} />
-    </div>
     {/* ----------------------------------------------------------- */}
     <TheBox
       className={`${props.className}`}
