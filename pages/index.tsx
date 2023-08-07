@@ -66,7 +66,7 @@ const Home: NextPage = (props: any) => {
     <main className={`${styles.main} md:mt-0 sm:mt-16 mt-28`}>
       <div className='w-full flex flex-wrap'>
         <div className='md:border-r border-black w-full md:w-2/5 relative md:h-[80vh] overflow-y-auto'>
-          <h1 className='px-8 2xl:text-6xl md:text-7xl text-6xl flex-items-center text-[#A378FF] pb-4 pt-8 md:mb-0 mb-4'>{"A 4337 Future"}</h1>
+          <h1 className='px-8 2xl:text-6xl md:text-7xl text-6xl flex-items-center text-purple-500 pb-4 pt-8 md:mb-0 mb-4'>{"A 4337 Future"}</h1>
           <div className='p-8'>
             {renderedParagraphs}
           </div>
@@ -107,7 +107,7 @@ const Home: NextPage = (props: any) => {
     <footer className='md:fixed bottom-0 w-full h-[10vh] border-t border-black justify-center flex items-center bg-white relative gap-12'>
       <div className='flex gap-4'>
         <p>Claimed:</p>
-        <p className='text-right text-[#A378FF]'>{props.constants.decentNft ? nftsMinted : props.nftDetails.data.totalSupply} | {props.constants.maxTokens > 999999 ? "Open" : props.constants.maxTokens}</p>
+        <p className='text-right text-purple-500'>{props.constants.decentNft ? nftsMinted : props.nftDetails.data.totalSupply} | {props.constants.maxTokens > 999999 ? "Open" : props.constants.maxTokens}</p>
       </div>
       {/* if open indefinitely, replace sale countdown */}
       <div className='hidden sm:inline-block'>
@@ -115,7 +115,7 @@ const Home: NextPage = (props: any) => {
       </div>
       <div className='flex gap-4'>
         <p>Sale Ends:</p>
-        <CountdownText className='text-[#A378FF] sm:w-40' dropTime={endDate} />
+        <CountdownText className='text-purple-500 sm:w-40' dropTime={endDate} />
       </div>
     </footer>
   </>
