@@ -10,8 +10,7 @@ import Box from "../components/Box";
 
 const Home: NextPage = (props: any) => {
   const blurRef = useRef<HTMLDivElement | null>(null);
-  const noEnd = 4294967295;
-  const endDate = new Date(props.nftDetails.saleTimes?.saleEnd * 1000) || noEnd;
+  const endDate = new Date(1691539200 * 1000);
   const [nftsMinted, setNftsMinted] = useState("");
   const [isVideo, setIsVideo] = useState(false);
 
@@ -128,8 +127,8 @@ export async function getStaticProps() {
   {/* -------------------------NFT Settings-------------------------- */}
   // change constants to fetch your NFT & set data that cannot be determined dynamically
   let constants = {
-    decentNft: true,
-    address: '0x3F9177218B651ef79d27B515A3ae215AB09532C4',
+    decentNft: false,
+    address: '0xc8B63119D2aF59b2F31281dF32a45D5E77299511',
     chainId: 137,
     mintPrice: "0.0",
     maxTokens: 3000,

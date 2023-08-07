@@ -6,7 +6,8 @@
     "dev": "sh liftoff.sh && next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clean": "rm -r node_modules && rm -r .next && rm -f pnpm-lock.yaml"
   },
   "dependencies": {
     "@decent.xyz/sdk": "^0.3.4",

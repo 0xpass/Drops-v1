@@ -18,7 +18,7 @@ const Box = (props:any):JSX.Element => {
     <div className='text-xl font-[400] pb-4'>Mint:</div>
     {/* Can delete maxQuantity if you do not want to limit the number of NFTs a person can mint at once */}
     <div className="pb-6">
-      <NumberTicker quantity={quantity} setQuantity={setQuantity} maxQuantity={10} />
+      <NumberTicker quantity={quantity} setQuantity={setQuantity} maxQuantity={1} />
     </div>
     {/* ----------------------------------------------------------- */}
     <TheBox
@@ -30,20 +30,19 @@ const Box = (props:any):JSX.Element => {
         paymentToken: ethers.constants.AddressZero,
         mintParams: {
           abi: "function mint(address to,uint256 numberOfTokens) payable",
-          params: [account, quantity],  
+          params: [account, 1],
           cost: ethers.utils.parseEther(props.constants.mintPrice).add(getContractFee(props.constants.chainId) || 0).mul(quantity),
           endSupply: {// only need one of the below
-            maxCap: props.constants.maxTokens,
-            // sellOutDate: props.constants.sellOutDate,
+            maxCap: 3000
           }
         },
         displayCost: `${props.constants.mintPrice}${' '}${props.constants.chainId === 137 ? 'MATIC' : "ETH"}`
       }}
       options={{
-        allowSecondary: false,
-        allowPrimary: true,
-        allowBridging: false,
-        allowSwapping: true
+          allowSecondary: false,
+          allowPrimary: true,
+          allowBridging: false,
+          allowSwapping: false
       }}
       onTxReceipt={() => toast.success("Successfully minted!")}
       apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}

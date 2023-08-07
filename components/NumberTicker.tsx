@@ -16,12 +16,12 @@ const NumberTicker = (props: any) => {
     <div className="flex items-center gap-5">
       <button
         className="font-500 w-10 h-10 rounded-full bg-[#FAFAFA] border"
-        onClick={() => handleChange(props.quantity - 1)}
+        disabled
       >-</button>
       <input max={props.maxQuantity} className="w-full font-semibold flex-1 text-center text-gray-800" min="1" type="number" onChange={(e) => handleChange(Number(e.target.value))} value={props.quantity} />
       <button
         className="font-500 w-10 h-10 rounded-full bg-[#FAFAFA] border"
-        onClick={() => handleChange(props.quantity + 1)}
+        disabled
       >+</button>
     </div>
   )
