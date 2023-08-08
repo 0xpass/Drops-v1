@@ -108,12 +108,11 @@ const Home: NextPage = (props: any) => {
       </div>
     </main>
 
-    <footer className='md:fixed bottom-0 w-full h-[10vh] border-t border-black justify-center flex items-center bg-white relative gap-12'>
+    {/*<footer className='md:fixed bottom-0 w-full h-[10vh] border-t border-black justify-center flex items-center bg-white relative gap-12'>
       <div className='flex gap-4'>
         <p>Claimed:</p>
         <p className='text-right text-purple-500'>{props.constants.decentNft ? nftsMinted : props.nftDetails.data.totalSupply} | {props.constants.maxTokens > 999999 ? "Open" : props.constants.maxTokens}</p>
       </div>
-      {/* if open indefinitely, replace sale countdown */}
       <div className='hidden sm:inline-block'>
         <MarketplaceButtons decentLink={"https://decent.xyz"} />
       </div>
@@ -121,7 +120,7 @@ const Home: NextPage = (props: any) => {
         <p>Sale Ends:</p>
         <CountdownText className='text-purple-500 sm:w-40' dropTime={endDate} />
       </div>
-    </footer>
+    </footer>*/}
   </>
 };
 
