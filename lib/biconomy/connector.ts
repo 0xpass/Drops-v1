@@ -4,7 +4,7 @@ import {BiconomySmartAccount, BiconomySmartAccountConfig, DEFAULT_ENTRYPOINT_ADD
 import {Bundler, IBundler} from "@biconomy/bundler";
 import {biconomyToViemClient} from "./signer/biconomy-viem-client";
 import {BiconomyPaymaster} from "@biconomy/paymaster";
-import {walletClientToSigner} from "../walletClientToSigner";
+import {walletClientToSigner} from "@0xpass/ethers-wagmi";
 
 
 
@@ -59,13 +59,11 @@ export const BiconomySmartConnector = (connector: Connector, config: SmartBicono
     const [ walletClient] = await Promise.all([
       original.getWalletClient(),
     ]);
-    console.log("Got provider and wallet client")
-    console.log(walletClient)
 
-      if (!biconomyAccount) {
+      if (!biconomyAccount ) {
         const ethersSigner = walletClientToSigner(walletClient)
-        console.log(ethersSigner)
-        // @ts-ignore
+        if(!ethersSigner) return walletClient;
+
         const config: BiconomySmartAccountConfig = {
           signer: ethersSigner,
           chainId: chain.id,
@@ -74,7 +72,6 @@ export const BiconomySmartConnector = (connector: Connector, config: SmartBicono
         };
         biconomyAccount = await new BiconomySmartAccount(config).init();
       }
-      console.log(biconomyAccount)
 
     return biconomyToViemClient(walletClient, biconomyAccount);
   }
@@ -87,13 +84,9 @@ export const BiconomySmartConnector = (connector: Connector, config: SmartBicono
   }
 
   async function handleConnect(original: Connector, proxy: any): Promise<Required<ConnectorData>> {
-    console.log("Connect was called")
     await original.connect({ chainId: chain.id });
     const walletClient = await proxy.getWalletClient();
-    console.log(walletClient)
-    console.log("I am now calling addresses function")
     const addresses = await walletClient?.getAddresses()
-    console.log(addresses)
     return {
       account: addresses?.[0],
       chain: {

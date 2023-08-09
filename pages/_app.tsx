@@ -14,8 +14,8 @@ import { WagmiConfig, configureChains, createConfig } from "wagmi"
 import {smartWalletWithBiconomy} from "../lib/biconomy/wallet";
 
 
-const apiKey = "pk_live_CB6C83195F3FFCC3";
-const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string;
+const magicApiKey = "pk_live_CB6C83195F3FFCC3"
+const connectWalletProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string;
 
 const bundlerUrl = process.env.NEXT_PUBLIC_BUNDLER_URL as string;
 const paymasterUrl = process.env.NEXT_PUBLIC_PAYMASTER_URL as string;
@@ -37,7 +37,7 @@ const {chains, publicClient } = configureChains(
   ]
 );
 
-const passClient = createClient({ apiKey, chains });
+const passClient = createClient({ apiKey: magicApiKey, chains });
 
 
 const connectors = connectorsForWallets([
@@ -45,7 +45,7 @@ const connectors = connectorsForWallets([
     groupName: "Email",
     wallets: [
       smartWalletWithBiconomy(
-          emailMagicWallet({ apiKey: apiKey, chains, shimDisconnect: true }),
+          emailMagicWallet({ apiKey: magicApiKey, chains, shimDisconnect: true }),
           biconomyConfig
       )
     ]
@@ -54,7 +54,7 @@ const connectors = connectorsForWallets([
     groupName: "Social",
     wallets: [
       smartWalletWithBiconomy(
-          socialMagicWallet({ apiKey: apiKey, chains, provider: "google" }),
+          socialMagicWallet({ apiKey: magicApiKey, chains, provider: "google" }),
           biconomyConfig
       )
     ]
@@ -63,11 +63,11 @@ const connectors = connectorsForWallets([
     groupName: "Others",
     wallets: [
       smartWalletWithBiconomy(
-        metaMaskWallet({projectId, chains}),
+        metaMaskWallet({projectId: connectWalletProjectId, chains}),
         biconomyConfig
       ),
       smartWalletWithBiconomy(
-          walletConnectWallet({projectId, chains}),
+          walletConnectWallet({projectId: connectWalletProjectId, chains}),
           biconomyConfig
       ),
     ],

@@ -2,19 +2,18 @@ import { TheBox } from "@decent.xyz/the-box";
 import { ethers } from "ethers";
 import { toast } from "react-toastify";
 import { useState } from "react";
-import NumberTicker from "./NumberTicker";
-import { useAccount } from "wagmi";
+import {useAccount, useWalletClient} from "wagmi";
 import { getContractFee } from "../lib/getContractFee";
-import {useEthersSigner} from "../lib/walletClientToSigner";
+import {walletClientToSigner} from "@0xpass/ethers-wagmi";
 
 {/* IMPORTANT UPDATE: need to make sure the mint params are valid for your NFT.  The information below is works for all Decent NFTs & should serve as a good example of what correct inputs look like.  If you are using a Decent NFT, you do not need to change this!  If you are not, then you do need to update the abi and params -- the rest of the information SHOULD be set in getStaticProps on index.tsx, but be sure to double check. */}
 
 const Box = (props:any):JSX.Element => {
   const { address: account } = useAccount();
-  const signer = useEthersSigner();
+  const {data: walletClient} = useWalletClient();
   const [quantity, setQuantity] = useState(1);
   const [showButtons, toggleButtons] = useState(false);
-
+  const signer = walletClientToSigner(walletClient);
 
     return <div>
     <div className='text-xl font-[400] pb-4'><b>Mint </b></div>
@@ -33,7 +32,7 @@ const Box = (props:any):JSX.Element => {
     {/* ----------------------------------------------------------- */}
     <TheBox
       className={`${props.className}`}
-      signer={signer || null}
+      signer={signer ?? null}
       nftParams={{
         address: props.constants.address,
         chainId: props.constants.chainId,
