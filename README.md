@@ -3,8 +3,6 @@
 Custom NFT minting page starter repo built on [0xpass](https://0xpass.io/), [Biconomy](https://www.biconomy.io/), and [Decent](http://decent.xyz/), deployed on [Vercel](https://vercel.com/).
 
 
-The purpose of this repository is to get you up & running quickly with a custom NFT minting page using [The Box](https://decent.xyz/box).  **The Box enables 1-click transactions using any token on any chain.  In this repo, The Box enables 1-click checkout for NFTs across primary and secondary sales.**  This repository is setup to handle any NFT, whether it was deployed through Decent or not - non-Decent NFTs are more likely to present UX bugs.
-
 ## Deployment Instructions
 
 We recommend starting with a Decent NFT, which you can deploy here: [Decent NFT](https://hq.decent.xyz/).  You will also need a [Decent API Key](https://docs.google.com/forms/d/e/1FAIpQLSdPBORZGU-JsMxwlhan9aUl01QCTgu2KJMEEPjhHC_9v1PQqA/viewform) and [Alchemy API Key](https://www.alchemy.com/) to use this starter. Run this repo locally by:
