@@ -36,6 +36,10 @@ NEXT_PUBLIC_MAGIC_API_KEY=
 
 ### 3. Deploy NFT Contract
 
+Before you proceed, make sure you deploy your own contract. 
+
+#### Here's a sample contract for your reference - 
+
 Here is a quick contract to deploy your NFT (use deployDCNT721A)
 ```shell
 https://polygonscan.com/address/0xbe41713a34c28de907c045e64458aeb616b293c4#writeContract#F2
