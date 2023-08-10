@@ -6,7 +6,6 @@ import {biconomySigner} from "./signer/biconomy-viem-client";
 import {BiconomyPaymaster} from "@biconomy/paymaster";
 import {walletClientToSigner} from "@0xpass/ethers-wagmi";
 import {biconomyEthers} from "./signer/biconomy-ethers";
-import {polygon} from "wagmi/chains";
 
 
 
@@ -61,8 +60,6 @@ export const BiconomySmartConnector = (connector: Connector, config: SmartBicono
     const [ walletClient] = await Promise.all([
       original.getWalletClient(options),
     ]);
-
-    walletClient.chain = polygon
 
       if (!biconomyAccount ) {
         const ethersSigner = walletClientToSigner(walletClient)
