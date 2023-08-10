@@ -2,9 +2,11 @@ import { Connector, ConnectorData, WalletClient } from "@wagmi/core";
 import { Address } from "viem";
 import {BiconomySmartAccount, BiconomySmartAccountConfig, DEFAULT_ENTRYPOINT_ADDRESS} from "@biconomy/account";
 import {Bundler, IBundler} from "@biconomy/bundler";
-import {biconomyToViemClient} from "./signer/biconomy-viem-client";
+import {biconomySigner} from "./signer/biconomy-viem-client";
 import {BiconomyPaymaster} from "@biconomy/paymaster";
 import {walletClientToSigner} from "@0xpass/ethers-wagmi";
+import {biconomyEthers} from "./signer/biconomy-ethers";
+import {polygon} from "wagmi/chains";
 
 
 
@@ -55,25 +57,26 @@ export const BiconomySmartConnector = (connector: Connector, config: SmartBicono
   }
 
   async function handleGetWalletClient(original: Connector, proxy: any, options: any): Promise<WalletClient> {
-    console.log("Get wallet client was called")
+
     const [ walletClient] = await Promise.all([
-      original.getWalletClient(),
+      original.getWalletClient(options),
     ]);
+
+    walletClient.chain = polygon
 
       if (!biconomyAccount ) {
         const ethersSigner = walletClientToSigner(walletClient)
         if(!ethersSigner) return walletClient;
-
         const config: BiconomySmartAccountConfig = {
-          signer: ethersSigner,
+          signer: biconomyEthers(ethersSigner),
           chainId: chain.id,
           bundler,
           paymaster
         };
         biconomyAccount = await new BiconomySmartAccount(config).init();
       }
-
-    return biconomyToViemClient(walletClient, biconomyAccount);
+    console.log("I am adding a biconomy wrapper")
+    return biconomySigner(walletClient, biconomyAccount);
   }
 
   async function handleGetAccount(): Promise<Address> {
@@ -86,7 +89,10 @@ export const BiconomySmartConnector = (connector: Connector, config: SmartBicono
   async function handleConnect(original: Connector, proxy: any): Promise<Required<ConnectorData>> {
     await original.connect({ chainId: chain.id });
     const walletClient = await proxy.getWalletClient();
+    console.log("New wallet client is")
+    console.log(walletClient)
     const addresses = await walletClient?.getAddresses()
+    console.log(addresses)
     return {
       account: addresses?.[0],
       chain: {
